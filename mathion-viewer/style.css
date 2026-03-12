@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0a0a0f;
+  --surface:  #12121a;
+  --border:   #2a2a3d;
+  --accent:   #7c6af5;
+  --accent2:  #f5a26a;
+  --text:     #e8e8f0;
+  --muted:    #6b6b88;
+  --radius:   10px;
+  --font-ui:  'Syne', sans-serif;
+  --font-mono:'Space Mono', monospace;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+}
+
+/* ── animated background grid ── */
+.bg {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: .35;
+  pointer-events: none;
+}
+
+/* ── layout ── */
+header {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 4rem 1rem 2rem;
+}
+
+.logo {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  margin-top: .6rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+main {
+  position: relative; z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── button grid ── */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* ── file button ── */
+.file-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .85rem 1.6rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color .2s, transform .15s, box-shadow .2s;
+  animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+.file-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+.file-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(124,106,245,.25);
+}
+
+.file-btn:hover::before { opacity: .1; }
+
+.file-btn:active { transform: translateY(0); }
+
+.file-btn .icon {
+  font-size: 1.1rem;
+  position: relative;
+}
+
+.file-btn .label {
+  position: relative;
+}
+
+.file-btn .ext {
+  position: relative;
+  font-size: .7rem;
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: .1rem;
+}
+
+/* staggered entry */
+@keyframes popIn {
+  from { opacity: 0; transform: scale(.85) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.file-btn:nth-child(1)  { animation-delay: .05s }
+.file-btn:nth-child(2)  { animation-delay: .10s }
+.file-btn:nth-child(3)  { animation-delay: .15s }
+.file-btn:nth-child(4)  { animation-delay: .20s }
+.file-btn:nth-child(5)  { animation-delay: .25s }
+.file-btn:nth-child(6)  { animation-delay: .30s }
+.file-btn:nth-child(7)  { animation-delay: .35s }
+.file-btn:nth-child(8)  { animation-delay: .40s }
+.file-btn:nth-child(9)  { animation-delay: .45s }
+.file-btn:nth-child(10) { animation-delay: .50s }
+
+/* ── empty state ── */
+.empty {
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .9rem;
+  line-height: 1.8;
+  padding: 4rem 0;
+}
+.empty code {
+  color: var(--accent2);
+  background: rgba(245,162,106,.1);
+  padding: .1em .4em;
+  border-radius: 4px;
+}
+
+/* ── footer ── */
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .75rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }

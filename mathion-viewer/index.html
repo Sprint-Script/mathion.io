@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mathion Viewer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <header>
+    <div class="logo">⬡ mathion</div>
+    <p class="subtitle">Click a file to open it</p>
+  </header>
+
+  <main>
+    <div id="button-grid" class="grid">
+      <!-- Buttons are injected by loader.js -->
+    </div>
+    <p id="empty-msg" class="empty" hidden>
+      No <code>.mathion</code> files found.<br/>
+      Add files to this repo and update <code>manifest.json</code>.
+    </p>
+  </main>
+
+  <footer>
+    powered by <a href="https://github.com/" target="_blank">GitHub Pages</a>
+  </footer>
+
+  <script src="loader.js"></script>
+</body>
+</html>

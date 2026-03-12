@@ -1,0 +1,63 @@
+name: Build Manifest & Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate manifest.json
+        run: |
+          echo "Scanning for .mathion files..."
+          # Find all .mathion files, output as JSON array
+          python3 - <<'EOF'
+          import json, subprocess, os
+
+          result = subprocess.run(
+              ['find', '.', '-name', '*.mathion', '-not', '-path', './.git/*'],
+              capture_output=True, text=True
+          )
+
+          files = sorted([
+              f.lstrip('./') for f in result.stdout.splitlines() if f.strip()
+          ])
+
+          manifest = {"files": files}
+          with open('manifest.json', 'w') as fp:
+              json.dump(manifest, fp, indent=2)
+
+          print(f"Found {len(files)} .mathion file(s):")
+          for f in files:
+              print(f"  {f}")
+          EOF
+
+      - name: Commit manifest (if changed)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add manifest.json
+          git diff --cached --quiet || git commit -m "chore: update manifest.json [skip ci]"
+          git push
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
